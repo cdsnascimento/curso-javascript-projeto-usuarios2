@@ -7,9 +7,9 @@ class User {
         this.birth = birth;
         this.country = country;
         this.email = email;
-        this.password;
-        this.photo;
-        this.admin;
+        this.password = password;
+        this.photo = photo;
+        this.admin = admin;
         
     }
 }
