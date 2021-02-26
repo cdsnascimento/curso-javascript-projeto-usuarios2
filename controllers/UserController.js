@@ -17,10 +17,19 @@ class UserController{
 
             let values = this.getValues();
 
+            let btnSubmit = this.formEl.querySelector("[type=submit]");
+
+            btnSubmit.disable = true;
+
             this.getPhoto().then(
                 (content)=>{
                     values.photo = content;
+
                     this.addLine(values);
+
+                    this.formEl.reset();
+
+                    btnSubmit.disable = false;
                 },
                 (e)=>{
                     console.error(e);
@@ -83,7 +92,7 @@ class UserController{
         return new User(
                         user.name, 
                         user.gender, 
-                        user.birth, 
+                        user.register, 
                         user.coutry,
                         user.email,
                         user.password, 
@@ -102,7 +111,7 @@ class UserController{
             <td>${dataUser.name}</td>
             <td>${dataUser.email}</td>
             <td>${(dataUser.admin) ? "Sim" : "Não"}</td>
-            <td>${dataUser.birth}</td>
+            <td>${dataUser.register}</td>
             <td>
                 <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
                 <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
