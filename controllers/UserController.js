@@ -15,11 +15,13 @@ class UserController{
 
             event.preventDefault();  // cancela a ação padrão do voluntário que seria atalizar
 
-            let values = this.getValues();
-
             let btnSubmit = this.formEl.querySelector("[type=submit]");
 
             btnSubmit.disable = true;
+
+            let values = this.getValues();
+
+            if (!values) return false; 
 
             this.getPhoto().then(
                 (content)=>{
@@ -114,6 +116,8 @@ class UserController{
     addLine(dataUser){
     
         let tr = document.createElement("tr");
+
+        tr.dataset.user = JSON.stringify(dataUser);
     
         tr.innerHTML = `
         
@@ -130,6 +134,26 @@ class UserController{
     `;
 
         this.tableEl.appendChild(tr);
-    
+
+        this.updateCount();
+
+    }
+
+    updateCount(){
+        let numAdmin = 0;
+        let numUsers = 0;
+
+        [...this.tableEl.children].forEach( tr=>{
+
+            numUsers++;
+
+            let user = JSON.parse(tr.dataset.user);
+            
+            if (user._admin) numAdmin++;
+
+        });
+
+        document.getElementById("num-users").innerHTML = numUsers;
+        document.getElementById("num-admin").innerHTML = numAdmin;
     }
 }
