@@ -6,7 +6,19 @@ class UserController{
         this.tableEl = document.getElementById(tableId);
 
         this.onSubmit();
+        this.onEdit();
 
+    }
+
+    onEdit(){
+
+        let btnCancel = document.querySelector('#box-user-update .btn-cancel');
+
+        btnCancel.addEventListener("click", e=>{
+            this.showHidePainel(); 
+        });
+
+        
     }
 
     onSubmit(){
@@ -127,16 +139,38 @@ class UserController{
             <td>${(dataUser.admin) ? "Sim" : "Não"}</td>
             <td>${Utils.dateFormat(dataUser.register)}</td>
             <td>
-                <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
+                <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
                 <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
             </td>
     
     `;
 
+        let btnEdit = tr.querySelector(".btn-edit");
+        btnEdit.addEventListener("click", e=>{
+            console.log(JSON.parse(tr.dataset.user));
+
+            this.showHidePainel();
+
+        });
+
         this.tableEl.appendChild(tr);
 
         this.updateCount();
 
+    }
+
+    showHidePainel(){
+       
+       let painelCreate = document.querySelector('#box-user-create');
+       let painelUpdate = document.querySelector('#box-user-update')
+       
+        if (painelCreate.style.display == "none") {
+            painelCreate.style.display = "block";
+            painelUpdate.style.display = "none";
+        } else {
+            painelCreate.style.display = "none";
+            painelUpdate.style.display = "block";
+        }
     }
 
     updateCount(){
