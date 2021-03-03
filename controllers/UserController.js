@@ -147,7 +147,19 @@ class UserController{
 
         let btnEdit = tr.querySelector(".btn-edit");
         btnEdit.addEventListener("click", e=>{
-            console.log(JSON.parse(tr.dataset.user));
+            let json = JSON.parse(tr.dataset.user);
+
+            let formUpdate = document.querySelector("#form-user-update")
+
+            for (let name in json){
+                let field = formUpdate.querySelector("[name=" + name.replace("_","") + "]");
+            
+                if (field){
+                    if (field.type == 'file') continue;
+                    field.value = json[name];
+                }
+                
+            }
 
             this.showHidePainel();
 
