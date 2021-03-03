@@ -15,7 +15,7 @@ class UserController{
         let btnCancel = document.querySelector('#box-user-update .btn-cancel');
 
         btnCancel.addEventListener("click", e=>{
-            this.showHidePainel(); 
+            this.hidePainelUpdate(); 
         });
 
         
@@ -116,12 +116,13 @@ class UserController{
         return new User(
                         user.name, 
                         user.gender, 
-                        user.register, 
-                        user.coutry,
+                        user.birth, 
+                        user.country,
                         user.email,
                         user.password, 
                         user.photo, 
-                        user.admin
+                        user.admin,
+                        user.register
                         );
     }
 
@@ -146,7 +147,9 @@ class UserController{
     `;
 
         let btnEdit = tr.querySelector(".btn-edit");
+
         btnEdit.addEventListener("click", e=>{
+
             let json = JSON.parse(tr.dataset.user);
 
             let formUpdate = document.querySelector("#form-user-update")
@@ -155,13 +158,27 @@ class UserController{
                 let field = formUpdate.querySelector("[name=" + name.replace("_","") + "]");
             
                 if (field){
-                    if (field.type == 'file') continue;
+                    
+                    switch (field.type) {
+                        case 'file':
+                            continue;
+                            break;
+                        case 'radio':
+                            field = formUpdate.querySelector("[name=" + name.replace("_","") + "][value=" +  json[name] +"]");
+                            field.checked = true;
+                        case 'checkbox':
+                            field.checked = json[name];
+                            break;
+                        default:
+                            field.value = json[name];      
+                    }
+
                     field.value = json[name];
                 }
                 
             }
 
-            this.showHidePainel();
+            this.showPainelUpdate();
 
         });
 
@@ -171,18 +188,23 @@ class UserController{
 
     }
 
-    showHidePainel(){
+    showPainelUpdate(){
        
        let painelCreate = document.querySelector('#box-user-create');
        let painelUpdate = document.querySelector('#box-user-update')
        
-        if (painelCreate.style.display == "none") {
-            painelCreate.style.display = "block";
-            painelUpdate.style.display = "none";
-        } else {
-            painelCreate.style.display = "none";
-            painelUpdate.style.display = "block";
-        }
+       painelCreate.style.display = "none";
+       painelUpdate.style.display = "block";
+
+    }
+
+    hidePainelUpdate(){
+        let painelCreate = document.querySelector('#box-user-create');
+        let painelUpdate = document.querySelector('#box-user-update')
+        
+        painelCreate.style.display = "block";
+        painelUpdate.style.display = "none";
+
     }
 
     updateCount(){
