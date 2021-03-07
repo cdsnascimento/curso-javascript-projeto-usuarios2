@@ -33,8 +33,6 @@ class UserController{
 
             let values = this.getValues(this.formUpdateEl);
 
-            console.log(values);
-
             let index = this.formUpdateEl.dataset.trIndex;
 
             let tr = this.tableEl.rows[index];
@@ -56,6 +54,8 @@ class UserController{
                     let user = new User();
 
                     user.loadFromJSON(result);
+
+                    user.save();
 
                     this.getTr(user, tr);
         
@@ -95,7 +95,7 @@ class UserController{
                 (content)=>{
                     values.photo = content;
 
-                    this.insert(values);
+                    values.save();
 
                     this.addLine(values);
 
@@ -211,15 +211,6 @@ class UserController{
             this.addLine(user)
         });
 
-    }
-
-    insert(data){
-        let users = this.getUsersStorage();
-        
-        users.push(data);
-
-        //sessionStorage.setItem("users", JSON.stringify(users));
-        localStorage.setItem("users", JSON.stringify(users));
     }
 
     addLine(dataUser){
